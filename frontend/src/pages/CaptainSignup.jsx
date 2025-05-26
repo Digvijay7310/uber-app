@@ -1,19 +1,26 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
+import { CaptainDataContext } from "../context/CaptainContext";
 
 function CaptainSignup() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [userData, setUserData] = useState({});
+  const [firstname, setFirstName] = useState("");
+  const [lastname, setLastName] = useState("");
+
+  const [vehicleColor, setVehicleColor] = useState("");
+  const [vehiclePlate, setVehiclePlate] = useState("");
+  const [vehicleCapacity, setVehicleCapacity] = useState("");
+  const [vehicleType, setVehicleType] = useState("");
+
+  const { captain, setCaptain } = useContext(CaptainDataContext);
 
   const submitHandler = (e) => {
     e.preventDefault();
     setUserData({
       username: {
-        firstName: firstName,
-        lastName: lastName,
+        firstname: firstname,
+        lastname: lastname,
       },
       email: email,
       password: password,
@@ -48,14 +55,14 @@ function CaptainSignup() {
                 required
                 type="text"
                 placeholder="first name"
-                value={firstName}
+                value={firstname}
                 onChange={(e) => setFirstName(e.target.value)}
               />
               <input
                 type="text"
                 className="bg-[#eeeeee] w-1/2 rounded px-4 py-2 border text-base placeholder:text-base"
                 placeholder="last name"
-                value={lastName}
+                value={lastname}
                 onChange={(e) => setLastName(e.target.value)}
               />
             </div>
@@ -81,7 +88,7 @@ function CaptainSignup() {
               onChange={(e) => setPassword(e.target.value)}
             />
             <button className="bg-[#111] text-white font-semibold mb-7 rounded px-4 py-2 w-full text-base placeholder:text-base">
-              Login
+              Create Captain Account
             </button>
             <p className="text-center">
               Already have a account ?{" "}

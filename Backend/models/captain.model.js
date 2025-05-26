@@ -43,12 +43,12 @@ const captainSchema = new mongoose.Schema({
         plate: {
             type: String,
             required: true,
-            minLength: [3, 'Plate must be atleaset 3 character long'],
+            minLength: [3, 'Plate must be at leaset 3 character long'],
         },
         capacity: {
             type: Number,
             required: true,
-            min: [1, 'Capacity must be atleaset 1']
+            min: [1, 'Capacity must be at leaset 1']
         },
         vehicleType: {
             type: String,
@@ -67,8 +67,8 @@ const captainSchema = new mongoose.Schema({
 })
 
 
-captainSchema.method.generateAuthToken = function () {
-    const token = jwt.sign({ _id: this._id }.process.env.JWT_SECRET, { expiresIn: '24h' })
+captainSchema.methods.generateAuthToken = function () {
+    const token = jwt.sign({ _id: this._id }, process.env.JWT_SECRET, { expiresIn: '24h' })
     return token;
 }
 
