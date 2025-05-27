@@ -57,38 +57,46 @@ const Home = () => {
   });
 
   const handlePickupChange = async (e) => {
-    setPickup(e.target.value);
+    const value = e.target.value;
+    setPickup(value);
+
+    if (value.length < 2) return; // 👈 Add this line to skip short input
+
     try {
       const response = await axios.get(
         `${import.meta.env.VITE_BASE_URL}/maps/get-suggestions`,
         {
-          params: { input: e.target.value },
+          params: { input: value },
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         }
       );
-      setPickupSuggestions(response.data);
-    } catch {
-      // handle error
+      setPickupSuggestions(response.data.suggestions || response.data); // safer fallback
+    } catch (err) {
+      console.error("Pickup autocomplete error", err);
     }
   };
 
   const handleDestinationChange = async (e) => {
-    setDestination(e.target.value);
+    const value = e.target.value;
+    setDestination(value);
+
+    if (value.length < 2) return; // 👈 Add this condition
+
     try {
       const response = await axios.get(
         `${import.meta.env.VITE_BASE_URL}/maps/get-suggestions`,
         {
-          params: { input: e.target.value },
+          params: { input: value },
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         }
       );
-      setDestinationSuggestions(response.data);
-    } catch {
-      // handle error
+      setDestinationSuggestions(response.data.suggestions || response.data);
+    } catch (err) {
+      console.error("Destination autocomplete error", err);
     }
   };
 
