@@ -2,10 +2,10 @@ import React, { createContext, useState } from "react";
 
 export const UserDataContext = createContext();
 
-function UserContex({ children }) {
+const UserContext = ({ children }) => {
   const [user, setUser] = useState({
     email: "",
-    fullname: {
+    fullName: {
       firstName: "",
       lastName: "",
     },
@@ -18,6 +18,6 @@ function UserContex({ children }) {
       </UserDataContext.Provider>
     </div>
   );
-}
+};
 
-export default UserContex;
+export default UserContext;
