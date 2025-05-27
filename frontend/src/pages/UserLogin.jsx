@@ -1,9 +1,10 @@
-import React, { useContext, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { UserDataContext } from "../context/UserContex";
+import React, { useState, useContext } from "react";
+import { Link } from "react-router-dom";
+import { UserDataContext } from "../context/UserContext";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-function UserLogin() {
+const UserLogin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [userData, setUserData] = useState({});
@@ -23,29 +24,27 @@ function UserLogin() {
       `${import.meta.env.VITE_BASE_URL}/users/login`,
       userData
     );
-    console.log("Login response: ", response);
 
-    if (
-      (response.status === 201 || response.status === 200) &&
-      response.data.user
-    ) {
+    if (response.status === 200) {
       const data = response.data;
       setUser(data.user);
-      localStorage.setItem("token", JSON.stringify(data.token));
+      localStorage.setItem("token", data.token);
       navigate("/home");
     }
 
     setEmail("");
     setPassword("");
   };
+
   return (
     <div className="p-7 h-screen flex flex-col justify-between">
       <div>
         <img
-          className="w-16 mb-8"
-          src="https://1000logos.net/wp-content/uploads/2021/04/Uber-logo.png"
-          alt="uber logo"
+          className="w-16 mb-10"
+          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYQy-OIkA6In0fTvVwZADPmFFibjmszu2A0g&s"
+          alt=""
         />
+
         <form
           onSubmit={(e) => {
             submitHandler(e);
@@ -53,47 +52,50 @@ function UserLogin() {
         >
           <h3 className="text-lg font-medium mb-2">What's your email</h3>
           <input
+            required
             value={email}
             onChange={(e) => {
               setEmail(e.target.value);
             }}
-            className="bg-[#eeeeee] mb-7 rounded px-4 py-2 border w-full text-lg placeholder:text-base"
-            required
+            className="bg-[#eeeeee] mb-7 rounded-lg px-4 py-2 border w-full text-lg placeholder:text-base"
             type="email"
             placeholder="email@example.com"
           />
+
           <h3 className="text-lg font-medium mb-2">Enter Password</h3>
+
           <input
+            className="bg-[#eeeeee] mb-7 rounded-lg px-4 py-2 border w-full text-lg placeholder:text-base"
             value={password}
             onChange={(e) => {
               setPassword(e.target.value);
             }}
-            className="bg-[#eeeeee] mb-7 rounded px-4 py-2 border w-full text-lg placeholder:text-base"
             required
             type="password"
-            placeholder="Enter your password"
+            placeholder="password"
           />
-          <button className="bg-[#111] text-white font-semibold mb-7 rounded px-4 py-2 w-full text-lg placeholder:text-base">
+
+          <button className="bg-[#111] text-white font-semibold mb-3 rounded-lg px-4 py-2 w-full text-lg placeholder:text-base">
             Login
           </button>
-          <p className="text-center">
-            New Here ?{" "}
-            <Link to="/signup" className="text-blue-500 mb-3">
-              Create new Account
-            </Link>
-          </p>
         </form>
+        <p className="text-center">
+          New here?{" "}
+          <Link to="/signup" className="text-blue-600">
+            Create new Account
+          </Link>
+        </p>
       </div>
       <div>
         <Link
           to="/captain-login"
-          className="bg-[#10b461] flex justify-center items-center text-white font-semibold mb-7 rounded px-4 py-2 w-full text-lg "
+          className="bg-[#10b461] flex items-center justify-center text-white font-semibold mb-5 rounded-lg px-4 py-2 w-full text-lg placeholder:text-base"
         >
           Sign in as Captain
         </Link>
       </div>
     </div>
   );
-}
+};
 
 export default UserLogin;
